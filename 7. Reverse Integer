@@ -1,0 +1,37 @@
+Given a 32-bit signed integer, reverse digits of an integer.
+Example 1:
+
+Input: 123
+Output: 321
+Example 2:
+
+Input: -123
+Output: -321
+Example 3:
+
+Input: 120
+Output: 21
+
+class Solution:
+    def reverse(self, x: int) -> int:
+        #set our return value num
+        num = 0
+        #since we only care about the absolute value of the integer,
+        #we will go ahead to use the abs() function
+        a = abs(x)
+        
+        #now it's time to iterate the a bit by bit
+        while(a != 0):
+            temp = a % 10
+            num = num*10 + temp
+            a = a // 10
+        #now the num is the reverse of the absolute value of x
+        #we need to consider positive and negative situation
+        #one thing need to keep in mind, we need to check 
+        #the value of num, since the question provides a value range for return value only
+        if x > 0 and num <= 2**31 - 1:
+            return num
+
+        if x < 0 and num <= 2**31:
+            return -num
+        return 0
