@@ -64,3 +64,6 @@ class Solution:
                 res = res + map[s[i]]
                 
         return res
+
+时间复杂度：O(N)
+空间复杂度：O(1)， 虽然我们建了一个map，但是这个map大小有限的，和N没有关系
