@@ -1,0 +1,51 @@
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Note that an empty string is also considered valid.
+
+Example 1:
+
+Input: "()"
+Output: true
+Example 2:
+
+Input: "()[]{}"
+Output: true
+Example 3:
+
+Input: "(]"
+Output: false
+Example 4:
+
+Input: "([)]"
+Output: false
+Example 5:
+
+Input: "{[]}"
+Output: true
+
+
+Solution:
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        #新建一个stack用来储存左括号
+        stack = []
+        
+        #再建一个map用来当dictionary快速找到左括号对应的右括号
+        map = {'[':']', '(':')', '{':'}'}
+        
+        #开始从左往右遍历一遍str(string是可以直接一个一个字母遍历的)
+        for i in s:
+            #如果map里面的key有i的存在，也就是说i是左括号,那就把i放到stack里面去
+            if i in map:
+                stack.append(i)
+            #如果不是左括号，那么首先检查stack里面有没有左括号，没有的话，直接报错，不可能右括号在前面
+            #如果stack里面有左括号，那么左括号和现在这个右括号是否抵消？不同直接报错，相等就继续loop
+            elif len(stack) == 0 or map[stack.pop()] != i:
+                return False
+        #最后检查stack长度是否为0，如果还有残余的括号，说明没有消完，invalid
+        return len(stack) == 0
