@@ -1,0 +1,38 @@
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+Example 1:
+
+Input: ["flower","flow","flight"]
+Output: "fl"
+Example 2:
+
+Input: ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+Note:
+
+All given inputs are in lowercase letters a-z.
+
+
+
+Solution:
+
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        #如果是空的字符集，返回空，注意这里用if not 比 is None好，因为if not包含了空集，False，None，而is None 只会检查None
+        #这里，如果strs是空，None的任何一种情况，我们都是返回''.
+        if not strs:
+            return ''
+        #我们以第一个string为参照物，把每个字母都按个遍历一遍，同时和后面的所有string比较
+        #如果后面的string都有统一的字母，就继续走，没有就返回截止到前一个字母的string
+        for i in range(len(strs[0])):
+            #遍历list里面除了第一个参照物以外的所有string
+            for string in strs[1:]:
+                #顺序不能乱，必须先检查i有没有越界，不然就会报错，再检查值等不等的问题
+                if i >= len(string) or string[i] != strs[0][i]:
+                    #如果不相等，就返回之前相等的部分
+                    return strs[0][:i]
+        #如果strs只有一个string，或者只有一个空string的时候，我们就直接返回，因为进不了上面的loop
+        return strs[0]
