@@ -1,0 +1,74 @@
+Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
+
+Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+Example 1:
+
+Given nums = [1,1,2],
+
+Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.
+
+It doesn't matter what you leave beyond the returned length.
+Example 2:
+
+Given nums = [0,0,1,1,1,2,2,3,3,4],
+
+Your function should return length = 5, with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively.
+
+It doesn't matter what values are set beyond the returned length.
+Clarification:
+
+Confused why the returned value is an integer but your answer is an array?
+
+Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well.
+
+Internally you can think of this:
+
+// nums is passed in by reference. (i.e., without making a copy)
+int len = removeDuplicates(nums);
+
+// any modification to nums in your function would be known by the caller.
+// using the length returned by your function, it prints the first len elements.
+for (int i = 0; i < len; i++) {
+    print(nums[i]);
+}
+
+Solution1：
+
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        #因为python里面，set会自动deduplicate， 于是我们把list导入进set，再导出成list就完美去重了
+        nums[:]=list(set(nums))
+        #这题发神经需要list里面顺序不变，于是python作弊器再来一个，直接sort一遍。。。
+        nums.sort()
+        #最后返回长度就行
+        return(len(nums))
+ 
+ 
+ 上面那个做法比较取巧，再来一个按照规矩in place做的
+ 
+ Solution2：
+ 
+ class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        #如果nums为空，None，或者不存在，统统返回0
+        if not nums:
+            return 0
+        
+        #建立一个count来计算list的长度,意味着，每次遇到不同的值，count + 1，其他时候不变
+        #所以最后我们应该返回count + 1，为总长度
+        #这里count必须从0开始计算，因为要和index保持一致，不然如果nums只有一个数的话，会有OutOfBound的情况
+        count = 0
+        #遍历一遍nums
+        for i in range(len(nums)):
+            #如果第一个值不等于后面的值，那么就count + 1
+            if nums[count] != nums[i]:
+                count += 1
+            #首先count不能变（因为要计数）
+            #但是后面怎么用count来代表最近的值呢？
+            #直接把count那个index位置的值改成刚刚的值就行了，这样不仅是in place，还可以继续检查后面的重复
+                nums[count] = nums[i]
+        
+        return count + 1
+ 
+ 
