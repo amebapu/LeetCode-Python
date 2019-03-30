@@ -1,0 +1,39 @@
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+
+Example:
+
+Input: 1->2->4, 1->3->4
+Output: 1->1->2->3->4->4
+
+
+Solution：
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        #谁小移谁的问题，因为新建一个Linkedlist，所以我们需要个dummynode
+        #同时还要一个遍历Linkedlist的指针
+        cur = dummy = ListNode(0)
+        
+        #Python在这里很方便，下面这种写法就是说l1和l2都有效的时候，保持在loop里
+        while l1 and l2:
+            #如果l1比l2的值小，就移动l1的值去新的Linkedlist上面去，同时l1挪到下一位去
+            if l1.val <l2.val:
+                cur.next = l1
+                l1 = l1.next
+            #不然，就是挪l2，一个道理
+            else:
+                cur.next = l2
+                l2 = l2.next
+            #不管挪谁，cur的指针都要每次往后走一步
+            cur = cur.next
+        #如果l1和l2有一个先走完了，那么就把剩下的那个连接到cur后面，这样整个Linkedlist就遍历玩了一遍
+        cur.next = l1 or l2
+        #返回dummynode后面一位
+        return dummy.next
+        
+ 
