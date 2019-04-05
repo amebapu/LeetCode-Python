@@ -1,0 +1,41 @@
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        #这道题，我们可以先画一个tree出来，就是假设n等于3，然后把所有可能性都列出来
+        #我们会发现，在每个node，我们都需要考虑4个问题：
+        # 1. 确定右边括号总数一定比左边括号小，或者相等，不然直接报错
+        # 2. 如果左右括号数目都相等，并且没有剩余括号，那么就是完成了一次举例，可以放到res里面去
+        # 3. 前面两个base case完成后，如果左边括号有剩余，就放左边括号进去
+        # 4. 如果右边括号有剩余，就放右边括号进去
+        #如果没有给一个括号，那么就直接返回空集
+        if n == 0:
+            return []
+        #先新建一个result的list
+        res = []
+        #这里我们准备一个helper function，因为需要用到recursion，我们不想把前面的res每次都带入进去
+        #helper里面的参数，分别是剩余的左括号，剩余的右括号，暂时node上面括号的string，以及最后的result
+        self.helper(n, n, '', res)
+        return res
+    
+    def helper(self, l, r, item, res):
+        #先写好base case
+        if r < l:
+            return
+        if l == 0 and r == 0:
+            res.append(item)
+        #然后就是两个recursive rule
+        if l > 0:
+            self.helper(l - 1, r, item + '(', res)
+        if r > 0:
+            self.helper(l, r - 1, item + ')', res)
