@@ -46,3 +46,19 @@ for (int i = 0; i < len; i++) {
 Solution：
 
 
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        #这道题题目也太长了，其实就是叫我们in place的在这个list上面把等于target的数字放到list的最后，其他数字不改变顺序，就这么简单
+        #那这里我们用两个指针，一个从头开始，一个从屁股开始，这样对着走，看不顺眼就swap，一直到两个指针错开就好了
+        #最后指针停止的时候，右指针在左边，这样每个element都检查了一遍，并且右指针的位置一定是最后一个不是target的值
+        #那么返回右指针index + 1就是lenth了
+        l, r = 0, len(nums) - 1
+        
+        while l <= r:
+            if nums[l] == val:
+                #python的swap就是方便啊
+                nums[l], nums[r] = nums[r], nums[l]
+                r -= 1
+            if nums[l] != val:
+                l += 1
+        return r + 1
